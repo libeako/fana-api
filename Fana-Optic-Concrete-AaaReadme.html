@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Fana.Optic.Concrete.AaaReadme</title><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean" /><link rel="stylesheet" type="text/css" href="quick-jump.css" /><script src="haddock-bundle.min.js" async="async" type="text/javascript"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script></head><body><div id="package-header"><ul class="links" id="page-menu"><li><a href="index.html">Contents</a></li><li><a href="doc-index.html">Index</a></li></ul><p class="caption">fana-0.0.0.142: common stuff</p></div><div id="content"><div id="module-header"><table class="info"><tr><th>Safe Haskell</th><td>None</td></tr><tr><th>Language</th><td>Haskell2010</td></tr></table><p class="caption">Fana.Optic.Concrete.AaaReadme</p></div><div id="description"><p class="caption">Description</p><div class="doc"><p>For each optic category Cat a main data type exists.</p><p>For each category named Cat an interface CatI exists that exposes the functionality of Cat.</p><p>Cat and the types in the subcategories implement CatI.
+	Hence for example :
+	though traverse is a method of IsTraversal : one can invoke fill on a Lens too,
+	because Lens is an instance of IsTraversal.</p><p>Mathematically : optics form categories.
+	But technically my optic data types do not have an instance of the usual Category class.
+	This is because the usual Category class assumes arrow types with 2 inputs [the source and target of arrows],
+	but my optic data types have 2 * 2 = 4 inputs :</p><ul><li>2 for the 2 pieces of data that the optic relates together;</li><li>2 for the 2 versions of the data [old and new].</li></ul><p>But to respect the important mathematical property of forming categories :
+	my optic data types do have an instance of a Category typeclass,
+	but of a technically different one, one that also assumes types with 2 * 2 inputs.
+	This category class is defined in <a href="Fana-Math-Algebra-Category-OnTypePairs.html">Fana.Math.Algebra.Category.OnTypePairs</a> as such :</p><pre>	class Category c where
+		empty :: c t1 t2 t1 t2
+		compose :: c x1 x2 y1 y2 -&gt; c y1 y2 z1 z2 -&gt; c x1 x2 z1 z2</pre><p>In addition convenient infix symbols are defined :</p><pre>	(&gt;**&gt;) = compose
+	(&lt;**&lt;) = flip (&gt;**&gt;)</pre><p>This is the technical tool with which to compose optics from the same category.</p><p>But in practice the situation is also abundant when the optics to be composed are from different categories.
+	Any optic library must provide some facility far that.</p><p>The solution here is a modified version of the categorical composition function,
+	defined in <a href="Fana-Math-Algebra-Category-ConvertThenCompose.html">Fana.Math.Algebra.Category.ConvertThenCompose</a> :</p><p>This solution works robustly in practice.
+	The trade-off of having to write an initial empty optic in the chain is small,
+	in my opinion is worth not having to use profunctor representation.</p></div></div><div id="interface"></div></div><div id="footer"><p>Produced by <a href="http://www.haskell.org/haddock/">Haddock</a> version 2.22.0</p></div></body></html>
